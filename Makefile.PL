@@ -1,6 +1,6 @@
 use inc::Module::Install;
-name 'PlackX-RouteBuilder';
-all_from 'lib/PlackX/RouteBuilder.pm';
+name 'Web-Dispatcher';
+all_from 'lib/Web/Dispatcher/Simple.pm';
 
 requires(
     'Router::Simple' => 0.07,

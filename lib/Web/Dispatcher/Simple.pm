@@ -1,7 +1,7 @@
-package PlackX::RouteBuilder;
+package Web::Dispatcher::Simple;
 use strict;
 use warnings;
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 use Carp ();
 use Router::Simple;
@@ -171,12 +171,15 @@ __END__
 
 =head1 NAME
 
-PlackX::RouteBuilder - Minimalistic routing sugar for your Plack
+Web::Dispatcher - Minimalistic routing sugar for your Plack
 
 =head1 SYNOPSIS
 
+In Web::Dispatcher::Simple, a route is an HTTP method paired with 
+an URL matching pattern.  Each route is associated with a code ref: 
+
   # app.psgi
-  use PlackX::RouteBuilder;
+  use Web::Dispatcher::Simple;
   my $app = router {
     get '/api' => sub {
       my $req = shift;
@@ -198,16 +201,28 @@ PlackX::RouteBuilder - Minimalistic routing sugar for your Plack
     }, 
   };
 
+Route patterns may include named parameters, accessible via the args hash:
+
+  use Web::Dispatcher::Simple;
+  my $app = router {
+    post '/comment/{id}' => sub {
+      my ($req, $args)  = @_;
+      my $id = $args->{id};
+      my $res = $req->new_response(200);
+      $res;
+    },
+  };
+
 
 =head1 DESCRIPTION
 
-PlackX::RouteBuilder is Minimalistic routing sugar for your Plack
+Web::Dispatcher::Simple is Minimalistic routing sugar for your Plack
 
 =head1 SOURCE AVAILABILITY
 
 This source is in Github:
 
-  http://github.com/dann/p5-plackx-routebuilder
+  http://github.com/dann/p5-web-dispatcher-simple
 
 =head1 CONTRIBUTORS
 

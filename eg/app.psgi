@@ -1,5 +1,5 @@
 # app.psgi
-use PlackX::RouteBuilder;
+use Web::Dispatcher::Simple;
 my $app = router {
   get '/api' => sub {
       my $req = shift;

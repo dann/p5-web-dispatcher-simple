@@ -2,7 +2,7 @@ use Plack::Test;
 use HTTP::Request;
 use Test::More;
 
-use PlackX::RouteBuilder;
+use Web::Dispatcher::Simple;
 my $app = router {
     get '/get' => sub {
         my $req = shift;

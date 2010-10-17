@@ -2,6 +2,6 @@ use strict;
 use warnings;
 use Test::More;
 
-use_ok('PlackX::RouteBuilder');
+use_ok('Web::Dispatcher::Simple');
 
 done_testing;
