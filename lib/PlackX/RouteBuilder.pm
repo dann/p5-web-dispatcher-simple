@@ -72,7 +72,7 @@ sub route {
 }
 
 sub do_any {
-    if ( @_ == 3 ) {
+    if ( scalar @_ == 4 ) {
         my ( $methods, $pattern, $code ) = @_;
         route( $pattern, $code, $methods );
     }
@@ -189,7 +189,13 @@ PlackX::RouteBuilder - Minimalistic routing sugar for your Plack
       my $id = $args->{id};
       my $res = $req->new_response(200);
       $res;
-    }
+    },
+    any [ 'GET', 'POST' ] => '/any' => sub {
+        my ( $req, $args ) = @_;
+        my $res = $req->new_response(200);
+        $res->body('any');
+        $res;
+    }, 
   };
 
 
@@ -212,6 +218,7 @@ Many thanks to:
 dann E<lt>techmemo@gmail.comE<gt>
 
 =head1 SEE ALSO
+L<Router::Simple>, L<Plack>
 
 =head1 LICENSE
 
