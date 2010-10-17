@@ -1,7 +1,7 @@
 use strict;
 use warnings;
-use Test::LoadAllModules;
+use Test::More;
 
-BEGIN {    
-    all_uses_ok(search_path => 'PlackX::RouteBuilder');
-}
+use_ok('PlackX::RouteBuilder');
+
+done_testing;
