@@ -7,6 +7,7 @@ requires(
     'Router::Simple' => 0.07,
     'Plack::Request' => 0,
     'Try::Tiny'      => 0,
+    'Scalar::Util'   => 0,
 );
 test_requires( 'Test::More' => 0, );
 use_test_base;
