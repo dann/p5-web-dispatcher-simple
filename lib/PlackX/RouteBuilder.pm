@@ -22,11 +22,14 @@ sub import {
     for my $http_method (@http_methods) {
         *{"${caller}\::$http_method"} = sub { goto \&$http_method };
     }
+
+    strict->import;
+    warnings->import;
 }
 
 sub _stub {
     my $name = shift;
-    return sub { croak "Can't call $name() outside pina block" };
+    return sub { croak "Can't call $name() outside router block" };
 }
 
 {
@@ -55,6 +58,10 @@ sub router (&) {
 # HTTP Methods
 sub route {
     my ( $pattern, $code, $method ) = @_;
+    unless ( ref $code eq 'CODE' ) {
+        croak "The logic for $pattern must be CodeRef";
+    }
+
     $_ROUTER->connect( $pattern, { action => $code }, { method => $method } );
 }
 
@@ -83,34 +90,30 @@ sub dispatch {
     my $env = shift;
     if ( my $match = $_ROUTER->match($env) ) {
         my $req = Plack::Request->new($env);
-        return process_request( $req, $match );
+        return handle_request( $req, $match );
     }
     else {
         return handle_not_found();
     }
 }
 
-sub process_request {
+sub handle_request {
     my ( $req, $match ) = @_;
     my $code = delete $match->{action};
-    if ( ref $code eq 'CODE' ) {
-        my $res = try {
-            $code->( $req, $match );
-        }
-        catch {
-            my $e = shift;
-            return handle_exception($e);
-        };
-        return try { $res->finalize } || $res;
+    my $res  = try {
+        $code->( $req, $match );
     }
-    else {
-        return internal_server_error();
-    }
+    catch {
+        my $e = shift;
+        return handle_exception($e);
+    };
+    return try { $res->finalize } || $res;
 }
 
 sub handle_exception {
     my $e = shift;
-    return internal_server_error();
+    warn "An internal error occured during processing request: $e";
+    return internal_server_error($e);
 }
 
 sub handle_not_found {
@@ -122,7 +125,8 @@ sub not_found {
 }
 
 sub internal_server_error {
-    return [ 500, [], ['Internal server error'] ];
+    my $e = shift;
+    return [ 500, [], [ 'Internal server error: ' . $e ] ];
 }
 
 1;
