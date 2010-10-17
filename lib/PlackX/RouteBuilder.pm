@@ -19,7 +19,7 @@ sub import {
 
     *{"${caller}::router"} = \&router;
 
-    my @http_methods = qw/get post put del/;
+    my @http_methods = qw/get post put del any/;
     for my $http_method (@http_methods) {
         *{"${caller}\::$http_method"} = sub { goto \&$http_method };
     }
@@ -34,7 +34,7 @@ sub _stub {
 }
 
 {
-    my @declarations = qw(get post put del);
+    my @declarations = qw(get post put del any);
     for my $keyword (@declarations) {
         no strict 'refs';
         *$keyword = _stub $keyword;
@@ -50,6 +50,7 @@ sub router (&) {
         local *post = sub { do_post(@_) };
         local *put  = sub { do_put(@_) };
         local *del  = sub { do_del(@_) };
+        local *any  = sub { do_any(@_) };
         $block->();
 
         return sub { dispatch(shift) }
@@ -58,32 +59,47 @@ sub router (&) {
 
 # HTTP Methods
 sub route {
-    my ( $pattern, $code, $method ) = @_;
+    my ( $pattern, $code, $methods ) = @_;
     unless ( ref $code eq 'CODE' ) {
         Carp::croak("The logic for $pattern must be CodeRef");
     }
 
-    $_ROUTER->connect( $pattern, { action => $code }, { method => $method } );
+    $_ROUTER->connect(
+        $pattern,
+        { action => $code },
+        { method => [ map { uc $_ } @$methods ] }
+    );
+}
+
+sub do_any {
+    if ( @_ == 3 ) {
+        my ( $methods, $pattern, $code ) = @_;
+        route( $pattern, $code, $methods );
+    }
+    else {
+        my ( $pattern, $code ) = @_;
+        route( $pattern, $code, [ 'GET', 'POST', 'DELETE', 'PUT' ] );
+    }
 }
 
 sub do_get {
     my ( $pattern, $code ) = @_;
-    route( $pattern, $code, 'GET' );
+    route( $pattern, $code, [ 'GET', 'HEAD' ] );
 }
 
 sub do_post {
     my ( $pattern, $code ) = @_;
-    route( $pattern, $code, 'POST' );
+    route( $pattern, $code, ['POST'] );
 }
 
 sub do_put {
     my ( $pattern, $code ) = @_;
-    route( $pattern, $code, 'PUT' );
+    route( $pattern, $code, ['PUT'] );
 }
 
 sub do_del {
     my ( $pattern, $code ) = @_;
-    route( $pattern, $code, 'DELETE' );
+    route( $pattern, $code, ['DELETE'] );
 }
 
 # dispatch
