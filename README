@@ -1,11 +1,11 @@
-This is Perl module PlackX::RouteBuilder.
+This is Perl module Web::Dispatcher::Simple.
 
 INSTALLATION
 
-PlackX::RouteBuilder installation is straightforward. If your CPAN shell is set up,
+Web::Dispatcher::Simple installation is straightforward. If your CPAN shell is set up,
 you should just be able to do
 
-    % cpan PlackX::RouteBuilder
+    % cpan Web::Dispatcher::Simple
 
 Download it, unpack it, then build it as per the usual:
 
@@ -20,7 +20,7 @@ DOCUMENTATION
 
 PlackX::RouteBuilder documentation is available as in POD. So you can do:
 
-    % perldoc PlackX::RouteBuilder
+    % perldoc Web::Dispatcher::Simple
 
 to read the documentation online with your favorite pager.
 
