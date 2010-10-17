@@ -1,7 +1,7 @@
 package Web::Dispatcher::Simple;
 use strict;
 use warnings;
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 use Carp ();
 use Router::Simple;
@@ -171,7 +171,7 @@ __END__
 
 =head1 NAME
 
-Web::Dispatcher - Minimalistic routing sugar for your Plack
+Web::Dispatcher::Simple - Minimalistic routing sugar for your Plack
 
 =head1 SYNOPSIS
 
