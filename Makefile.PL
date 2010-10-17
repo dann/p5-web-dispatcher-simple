@@ -9,7 +9,10 @@ requires(
     'Carp'           => 0,
     'Scalar::Util'   => 0,
 );
-test_requires( 'Test::More' => 0.88, );
+test_requires(
+    'Test::More'  => 0.88,
+    'Plack::Test' => 0,
+);
 use_test_base;
 auto_include;
 WriteAll;

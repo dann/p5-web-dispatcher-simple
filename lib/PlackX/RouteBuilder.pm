@@ -78,7 +78,7 @@ sub do_any {
     }
     else {
         my ( $pattern, $code ) = @_;
-        route( $pattern, $code, [ 'GET', 'POST', 'DELETE', 'PUT' ] );
+        route( $pattern, $code, [ 'GET', 'POST', 'DELETE', 'PUT', 'HEAD' ] );
     }
 }
 
@@ -160,7 +160,7 @@ sub not_found {
 
 sub internal_server_error {
     my $e = shift;
-    return [ 500, [], [ 'Internal server error: ' . $e ] ];
+    [ 500, [], [ 'Internal server error: ' . $e ] ];
 }
 
 1;
@@ -201,7 +201,7 @@ PlackX::RouteBuilder is Minimalistic routing sugar for your Plack
 
 This source is in Github:
 
-  http://github.com/dann/
+  http://github.com/dann/p5-plackx-routebuilder
 
 =head1 CONTRIBUTORS
 
