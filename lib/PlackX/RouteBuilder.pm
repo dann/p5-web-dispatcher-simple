@@ -3,10 +3,11 @@ use strict;
 use warnings;
 our $VERSION = '0.01';
 
-use Carp 'croak';
+use Carp ();
 use Router::Simple;
 use Try::Tiny;
 use Plack::Request;
+use Scalar::Util qw(blessed);
 
 my $_ROUTER = Router::Simple->new;
 
@@ -29,7 +30,7 @@ sub import {
 
 sub _stub {
     my $name = shift;
-    return sub { croak "Can't call $name() outside router block" };
+    return sub { Carp::croak("Can't call $name() outside router block") };
 }
 
 {
@@ -59,7 +60,7 @@ sub router (&) {
 sub route {
     my ( $pattern, $code, $method ) = @_;
     unless ( ref $code eq 'CODE' ) {
-        croak "The logic for $pattern must be CodeRef";
+        Carp::croak("The logic for $pattern must be CodeRef");
     }
 
     $_ROUTER->connect( $pattern, { action => $code }, { method => $method } );
@@ -107,7 +108,24 @@ sub handle_request {
         my $e = shift;
         return handle_exception($e);
     };
-    return try { $res->finalize } || $res;
+    return psgi_response($res);
+}
+
+sub psgi_response {
+    my $res = shift;
+
+    my $psgi_res;
+    my $res_type = ref($res) || '';
+    if ( blessed $res && $res->isa('Plack::Response') ) {
+        $psgi_res = $res->finalize;
+    }
+    elsif ( $res_type eq 'ARRAY' ) {
+        $psgi_res = $res;
+    }
+    else {
+        Carp::croak("unknown response type: $res_type. The response is $res");
+    }
+    $psgi_res;
 }
 
 sub handle_exception {
