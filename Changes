@@ -1,4 +1,7 @@
 Revision history for Perl extension PlackX::RouteBuilder
 
+0.02 Fri Oct 15 00:53:30 2010
+	* Improved documentation and added tests
+
 0.01 Fri Oct 15 00:53:30 2010
 	* original version
