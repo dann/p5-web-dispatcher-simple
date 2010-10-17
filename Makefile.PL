@@ -1,5 +1,5 @@
 use inc::Module::Install;
-name 'Web-Dispatcher';
+name 'Web-Dispatcher-Simple';
 all_from 'lib/Web/Dispatcher/Simple.pm';
 
 requires(

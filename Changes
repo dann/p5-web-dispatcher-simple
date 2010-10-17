@@ -1,6 +1,6 @@
 Revision history for Perl extension Web::Dispatcher::Simple
 
-0.04 Fri Oct 15 12:40:00 2010
+0.05 Fri Oct 15 17:47:00 2010
 	* Changed the module name from PlackX::RouteBuilder to
           Web::Dispatcher::Simple
 
