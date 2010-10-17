@@ -17,10 +17,16 @@ my $app = router {
         $res->body('post');
         $res;
     },
-    any [ 'GET', 'POST' ] => '/any' => sub {
+    any [ 'GET', 'POST' ] => '/any1' => sub {
         my ( $req, $args ) = @_;
         my $res = $req->new_response(200);
-        $res->body('any');
+        $res->body('any1');
+        $res;
+    },
+    any [ 'POST' ] => '/any2' => sub {
+        my ( $req, $args ) = @_;
+        my $res = $req->new_response(200);
+        $res->body('any2');
         $res;
     },
     any '/anyall' => sub {
@@ -55,20 +61,20 @@ test_psgi $app, sub {
 
 test_psgi $app, sub {
     my $cb  = shift;
-    my $req = HTTP::Request->new( GET => q{http://localhost/any} );
+    my $req = HTTP::Request->new( GET => q{http://localhost/any1} );
     my $res = $cb->($req);
 
     is $res->code,    200;
-    is $res->content, "any";
+    is $res->content, "any1";
 };
 
 test_psgi $app, sub {
     my $cb  = shift;
-    my $req = HTTP::Request->new( POST => q{http://localhost/any} );
+    my $req = HTTP::Request->new( POST => q{http://localhost/any2} );
     my $res = $cb->($req);
 
     is $res->code,    200;
-    is $res->content, "any";
+    is $res->content, "any2";
 };
 
 test_psgi $app, sub {
@@ -95,7 +101,5 @@ test_psgi $app, sub {
 
     is $res->code,    500;
 };
-
-
 
 done_testing;
