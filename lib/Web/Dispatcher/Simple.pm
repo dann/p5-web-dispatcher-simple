@@ -6,7 +6,7 @@ our $VERSION = '0.06';
 use Carp ();
 use Router::Simple;
 use Try::Tiny;
-use Plack::Request;
+use Web::Dispatcher::Simple::Request;
 use Scalar::Util qw(blessed);
 
 my $_ROUTER = Router::Simple->new;
@@ -106,7 +106,7 @@ sub do_del {
 sub dispatch {
     my $env = shift;
     if ( my $match = $_ROUTER->match($env) ) {
-        my $req = Plack::Request->new($env);
+        my $req = Web::Dispatcher::Simple::Request->new($env);
         return handle_request( $req, $match );
     }
     else {
