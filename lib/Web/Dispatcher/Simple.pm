@@ -1,12 +1,13 @@
 package Web::Dispatcher::Simple;
 use strict;
 use warnings;
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 use Carp ();
 use Router::Simple;
 use Try::Tiny;
 use Web::Dispatcher::Simple::Request;
+use Web::Dispatcher::Simple::Response;
 use Scalar::Util qw(blessed);
 
 my $_ROUTER = Router::Simple->new;
@@ -107,6 +108,9 @@ sub dispatch {
     my $env = shift;
     if ( my $match = $_ROUTER->match($env) ) {
         my $req = Web::Dispatcher::Simple::Request->new($env);
+
+        # enable configuring
+        $req->decode_params();
         return handle_request( $req, $match );
     }
     else {
@@ -124,19 +128,24 @@ sub handle_request {
         my $e = shift;
         return handle_exception($e);
     };
-    return psgi_response($res);
+    return psgify_response($res);
 }
 
-sub psgi_response {
+sub psgify_response {
     my $res = shift;
 
     my $psgi_res;
     my $res_type = ref($res) || '';
     if ( blessed $res && $res->isa('Plack::Response') ) {
+
+        #TODO enable configuring
+        $res->encode_body;
         $psgi_res = $res->finalize;
     }
     elsif ( $res_type eq 'ARRAY' ) {
-        $psgi_res = $res;
+        my $res = Web::Dispatcher::Simple::Response->new(@$res);
+        $res->encode_body;
+        $psgi_res = $res->finalize;
     }
     else {
         Carp::croak("unknown response type: $res_type. The response is $res");

@@ -1,7 +1,16 @@
 package Web::Dispatcher::Simple::Response;
 use strict;
 use warnings;
+use Encode;
+
 use base qw/Plack::Response/;
+
+sub encode_body {
+    my $self = shift;
+    my $encoded_body = Encode::encode('utf8',$self->body);
+    $self->body($encoded_body);
+    $encoded_body;
+}
 
 sub not_found {
     my ($self, $error) = @_;

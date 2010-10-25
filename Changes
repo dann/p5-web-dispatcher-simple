@@ -1,5 +1,8 @@
 Revision history for Perl extension Web::Dispatcher::Simple
 
+0.08 Sun Oct 25 20:18:00 2010
+        * Decode request params and encode response body
+
 0.07 Sun Oct 24 14:30:00 2010
         * added request and response classes
 
