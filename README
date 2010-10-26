@@ -18,7 +18,7 @@ Then install it:
 
 DOCUMENTATION
 
-PlackX::RouteBuilder documentation is available as in POD. So you can do:
+Web::Dispatcher::Simple documentation is available as in POD. So you can do:
 
     % perldoc Web::Dispatcher::Simple
 
