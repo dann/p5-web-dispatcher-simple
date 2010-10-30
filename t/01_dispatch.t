@@ -92,6 +92,7 @@ test_psgi $app, sub {
     my $res = $cb->($req);
 
     is $res->code,    404;
+    is $res->content, 'Not Found';
 };
 
 test_psgi $app, sub {
@@ -100,6 +101,7 @@ test_psgi $app, sub {
     my $res = $cb->($req);
 
     is $res->code,    500;
+    is $res->content, 'Internal Server Error';
 };
 
 done_testing;
