@@ -1,5 +1,10 @@
 Revision history for Perl extension Web::Dispatcher::Simple
 
+
+0.09 Sun Oct 30 20:15:00 2010
+        * Fixed the exceptoin handling when exception occured.
+        * Added dependencies
+
 0.08 Sun Oct 25 20:18:00 2010
         * Decode request params and encode response body
 
