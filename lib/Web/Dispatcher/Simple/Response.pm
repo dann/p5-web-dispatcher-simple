@@ -12,7 +12,8 @@ sub encode_body {
     if ( $body_type eq 'ARRAY' ) {
         $body = join '', @$body;
     }
-    my $encoded_body = Encode::encode( 'utf8', $body );
+    my $encoded_body
+        = Encode::is_utf8($body) ? $body : Encode::encode( 'utf8', $body );
     $self->body($encoded_body);
     $encoded_body;
 }
