@@ -1,5 +1,7 @@
 Revision history for Perl extension Web::Dispatcher::Simple
 
+0.092 Sun Nov 6 10:26:00 2010
+        * Fixed the uri_for test
 
 0.091 Sun Nov 6 10:15:00 2010
         * Updated plack version

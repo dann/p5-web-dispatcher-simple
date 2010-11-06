@@ -6,9 +6,9 @@ use Web::Dispatcher::Simple;
 my $app = router {
     get '/relative' => sub {
         my $req = shift;
-        my $relative_url = $req->uri_for('/relative');
+        my $abs_url = $req->uri_for('/relative');
         my $res = $req->new_response(200);
-        $res->body($relative_url);
+        $res->body($abs_url->as_string);
         $res;
     },
 };
