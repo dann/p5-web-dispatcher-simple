@@ -1,7 +1,7 @@
 package Web::Dispatcher::Simple;
 use strict;
 use warnings;
-our $VERSION = '0.09';
+our $VERSION = '0.091';
 
 use Carp ();
 use Router::Simple;

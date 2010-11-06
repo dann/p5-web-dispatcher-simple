@@ -4,7 +4,7 @@ all_from 'lib/Web/Dispatcher/Simple.pm';
 
 requires(
     'Router::Simple'   => 0.07,
-    'Plack::Request'   => 0.09,
+    'Plack'            => 0.9951,
     'Try::Tiny'        => 0.06,
     'Carp'             => 0,
     'Scalar::Util'     => 0,

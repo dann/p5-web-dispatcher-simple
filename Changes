@@ -1,6 +1,9 @@
 Revision history for Perl extension Web::Dispatcher::Simple
 
 
+0.091 Sun Nov 6 10:15:00 2010
+        * Updated plack version
+
 0.09 Sun Oct 30 20:15:00 2010
         * Fixed the exceptoin handling when exception occured.
         * Added dependencies
