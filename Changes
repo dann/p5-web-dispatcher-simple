@@ -1,5 +1,8 @@
 Revision history for Perl extension Web::Dispatcher::Simple
 
+0.1  Sun Apr 17 23:36:00 2011
+        * Fixed the response encoding bug. Thanks, woremacx! 
+
 0.092 Sun Nov 6 10:26:00 2010
         * Fixed the uri_for test
 

@@ -1,7 +1,7 @@
 package Web::Dispatcher::Simple;
 use strict;
 use warnings;
-our $VERSION = '0.092';
+our $VERSION = '0.1';
 
 use Carp ();
 use Router::Simple;
@@ -42,7 +42,7 @@ sub _stub {
     }
 }
 
-sub router (&) {
+sub router (&) { ## no critic 
     my $block = shift;
 
     if ($block) {
