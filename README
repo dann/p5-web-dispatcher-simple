@@ -6,6 +6,7 @@ Web::Dispatcher::Simple installation is straightforward. If your CPAN shell is s
 you should just be able to do
 
     % cpan Web::Dispatcher::Simple
+    % cpanm Web::Dispatcher::Simple
 
 Download it, unpack it, then build it as per the usual:
 
