@@ -13,7 +13,7 @@ sub encode_body {
         $body = join '', @$body;
     }
     my $encoded_body
-        = Encode::is_utf8($body) ? $body : Encode::encode( 'utf8', $body );
+        = Encode::is_utf8($body) ? Encode::encode( 'utf8', $body ) : $body;
     $self->body($encoded_body);
     $encoded_body;
 }
